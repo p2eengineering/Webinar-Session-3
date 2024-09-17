@@ -1,0 +1,23 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+balance-manager/node_modules
+balance-manager/.pnp
+balance-manager/.pnp.js
+
+# testing
+balance-manager/coverage
+
+# production
+balance-manager/build
+
+# misc
+balance-manager/.DS_Store
+balance-manager/.env.local
+balance-manager/.env.development.local
+balance-manager/.env.test.local
+balance-manager/.env.production.local
+
+balance-manager/npm-debug.log*
+balance-manager/yarn-debug.log*
+balance-manager/yarn-error.log*
