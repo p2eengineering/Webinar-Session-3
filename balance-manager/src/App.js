@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
+import { ethers } from "ethers";
 
 function App() {
   const [getBalanceAccount, setGetBalanceAccount] = useState("");
@@ -12,29 +13,32 @@ function App() {
   const [message, setMessage] = useState("");
 
   // API URL (replace with your actual API endpoint)
-  const apiUrl = "https://gateway-api.kalp.studio/v1/contract/kalp";
-  const contractAddress = "ZHzpkUzbYDeuX3cCRBC6xIeUMdxlg4Ua1726523221325";
+  const apiUrl = "https://gateway-api.kalp.studio/v1/contract/evm";
+  const contractAddress = "0x60Dd89dA47638c2bf0a69cD02cd180ed4EE6455b";
   const apikey =
-    "39a27e70317aef284ec11fafbd52a5353eab3b9458b8b232da7020a2a9e820402ce1038708780a6f8897a577038192c13ffa78d81cf46e442eec758d51c66134bb6003";
+    "3ff178776627ee774e9218aebf52a56569ff3b940febe832dc2676a3aaef734574e204d708780a6f8897a577038192c13ffa78d81cf46e442eec758d51c66134bb6003";
 
   // Get balance function
   const getBalance = async () => {
     try {
       const response = await axios.post(
-        `${apiUrl}/query/${contractAddress}/GetBalance`,
+        `${apiUrl}/query/${contractAddress}/ShowBalance`,
         {
-          network: "TESTNET",
-          blockchain: "KALP",
-          walletAddress: "a90efceaef54bfc007e829f3584b0cfcdf4a7bbf",
+          network: "AMOY",
+          blockchain: "POLY",
+          walletAddress: "0xBf59E83ecC7de8e774b37fa4b958DE6e5A0C5471",
           args: {
             account: getBalanceAccount,
           },
         },
         { headers: { "Content-Type": "application/json", "x-api-key": apikey } }
       );
-      setBalance(response.data.result.result);
+
+      console.log(response);
+      setBalance(ethers.getBigInt(response.data.result.result.hex).toString());
       setMessage("");
     } catch (error) {
+      console.log(error);
       setMessage("Error fetching balance");
     }
   };
@@ -45,9 +49,9 @@ function App() {
       await axios.post(
         `${apiUrl}/invoke/${contractAddress}/AddBalance`,
         {
-          network: "TESTNET",
-          blockchain: "KALP",
-          walletAddress: "a90efceaef54bfc007e829f3584b0cfcdf4a7bbf",
+          network: "AMOY",
+          blockchain: "POLY",
+          walletAddress: "0xBf59E83ecC7de8e774b37fa4b958DE6e5A0C5471",
           args: {
             account: addBalanceAccount,
             amount: parseInt(addBalanceAmount),
@@ -68,9 +72,9 @@ function App() {
       await axios.post(
         `${apiUrl}/invoke/${contractAddress}/RemoveBalance`,
         {
-          network: "TESTNET",
-          blockchain: "KALP",
-          walletAddress: "a90efceaef54bfc007e829f3584b0cfcdf4a7bbf",
+          network: "AMOY",
+          blockchain: "POLY",
+          walletAddress: "0xBf59E83ecC7de8e774b37fa4b958DE6e5A0C5471",
           args: {
             account: removeBalanceAccount,
             amount: parseInt(removeBalanceAmount),
